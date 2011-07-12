@@ -1,0 +1,25 @@
+.TH bootmail 8 "12 July 2011" bootmail "bootmail"
+.SH NAME
+bootmail - email some people when this system (re)boots
+
+.SH DESCRIPTION
+\fBbootmail\fP is a program called at reboot by \fBcron\fP(8).
+
+It will read a list of one or more comma-separated email addresses from \fI/etc/bootmail/recipients\fP, and then loop over a list of white-space separated files in \fI/etc/bootmail/logs\fP, and construct an email.
+
+This is perhaps useful for unattended, remote servers.
+
+By default, the email will at least consist of the hostname of the system, the time and date of the boot, as well as the contents of \fI/var/log/boot.log\fP and \fI/etc/motd\fP.
+
+.SH FILES
+\fI/etc/bootmail/logs\fP, \fI/etc/bootmail/recipients\fP
+
+.SH SEE ALSO
+.TP
+\fIhttp://launchpad.net/bootmail\fP
+.PD
+
+.SH AUTHOR
+This manpage and the utility were written by Dustin Kirkland <kirkland@ubuntu.com> for Ubuntu systems (but may be used by others).  Permission is granted to copy, distribute and/or modify this document and the utility under the terms of the GNU General Public License, Version 3 published by the Free Software Foundation.
+
+The complete text of the GNU General Public License can be found in \fI/usr/share/common-licenses/GPL\fP on Debian/Ubuntu systems, or on the web at \fIhttp://www.gnu.org/licenses/gpl.txt\fP.

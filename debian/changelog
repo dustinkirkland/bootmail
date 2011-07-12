@@ -1,5 +1,8 @@
 bootmail (1.0) unreleased; urgency=low
 
-  * UNRELEASED
+  * === added directory usr/share, === added directory usr/share/man,
+    === added directory usr/share/man/man1,
+    usr/share/man/man1/bootmail.8:
+    - added manpage
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 16:16:56 -0500
