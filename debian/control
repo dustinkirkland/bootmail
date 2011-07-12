@@ -1,0 +1,16 @@
+Source: bootmail
+Section: admin
+Priority: optional
+Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.9.1
+Homepage: http://launchpad.net/bootmail
+
+Package: bootmail
+Architecture: all
+Depends: ${misc:Depends}, postfix | mail-transport-agent
+Description: automatically email a list of admins when a system reboots
+ bootmail is a handy utility that will automatically send an email
+ to a configurable list of email addresses each time the system boots.
+ This is perhaps useful for unattended servers that should not reboot often.
+ It appends a configurable list of log files to the email body.

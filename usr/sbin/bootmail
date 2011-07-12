@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+#    bootmail - email some people when this system (re)boots
+#
+#    Copyright (C) 2011 Dustin Kirkland <kirkland@ubuntu.com>
+#
+#    Authors:
+#        Dustin Kirkland <kirkland@ubuntu.com>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+# This should be comma-separated, and can be configured via debconf:
+#  sudo dpkg-reconfigure bootmail
+recipients=
+[ -f /etc/bootmail/recipients ] && recipients="$(cat /etc/bootmail/recipients)"
+if [ -z "$recipients" ]; then
+	echo "No recipients defined in [/etc/bootmail/recipients]" 1>&2
+	exit 0
+fi
+
+# Work against a tempfile
+temp=$(mktemp)
+trap "rm -f $temp 2>/dev/null || true" EXIT HUP INT QUIT TERM
+
+# Print the header
+echo "bootmail: [$(hostname)] booted on $(date)" > "$temp"
+echo >> "$temp"
+
+# Concatenate all specified boot logs
+if [ -f "/etc/bootmail/logs" ]; then
+	for i in $(cat /etc/bootmail/logs); do
+		echo
+		echo "==================" >> "$temp"
+		echo "$i:" >> "$temp"
+		echo "------------------" >> "$temp"
+		cat "$i" >> "$temp"
+		echo "==================" >> "$temp"
+		echo
+	done
+fi
+
+subject="bootmail: [$(hostname)] booted"
+
+cat "$temp" | mail -s "$subject" "$recipients"

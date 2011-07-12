@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+. /usr/share/debconf/confmodule
+db_version 2.0
+
+db_get bootmail/recipients || true
+if [ -n "$RET" ]; then
+	echo "$RET" > /etc/bootmail/recipients
+else
+	rm -f /etc/bootmail/recipients
+fi
+
+#DEBHELPER#
+
+# vi: syntax=sh ts=4 noexpandtab

@@ -1,0 +1,5 @@
+Template: bootmail/recipients
+Type: string
+_Description: Recipient email addresses
+ Bootmail will automatically email one or more addresses each time this
+ system reboots.  Enter a comma-separated list of email addresses.
