@@ -14,5 +14,7 @@ bootmail (1.0) unreleased; urgency=low
     - add source
   * etc/cron.d/bootmail:
     - fix syntax
+  * etc/cron.d/bootmail, usr/sbin/bootmail:
+    - strip control characters
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 16:16:56 -0500

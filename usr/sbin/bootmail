@@ -40,16 +40,16 @@ echo >> "$temp"
 # Concatenate all specified boot logs
 if [ -f "/etc/bootmail/logs" ]; then
 	for i in $(cat /etc/bootmail/logs); do
-		echo
+		echo >> "$temp"
 		echo "==================" >> "$temp"
 		echo "$i:" >> "$temp"
 		echo "------------------" >> "$temp"
 		cat "$i" >> "$temp"
 		echo "==================" >> "$temp"
-		echo
+		echo >> "$temp"
 	done
 fi
 
 subject="bootmail: [$(hostname)] booted"
 
-cat "$temp" | mail -s "$subject" "$recipients"
+cat "$temp" | sed -e "s/[^[:print:]]//g" | mail -s "$subject" "$recipients"
