@@ -1,1 +1,1 @@
-@reboot [ -x /usr/sbin/bootmail] && /usr/sbin/bootmail
+@reboot [ -x /usr/sbin/bootmail ] && /usr/sbin/bootmail

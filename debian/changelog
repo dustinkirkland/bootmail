@@ -12,5 +12,7 @@ bootmail (1.0) unreleased; urgency=low
     - updated for po
   * === added directory debian/source, debian/source/format:
     - add source
+  * etc/cron.d/bootmail:
+    - fix syntax
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 16:16:56 -0500
