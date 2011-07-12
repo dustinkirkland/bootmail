@@ -7,5 +7,8 @@ bootmail (1.0) unreleased; urgency=low
   * debian/templates, === renamed directory usr/share/man/man1 =>
     usr/share/man/man8:
     - fix lintian
+  * === added directory debian/po, debian/control,
+    debian/po/POTFILES.in, debian/po/templates.pot, debian/templates:
+    - updated for po
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 16:16:56 -0500
