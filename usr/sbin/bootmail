@@ -37,6 +37,12 @@ trap "rm -f $temp 2>/dev/null || true" EXIT HUP INT QUIT TERM
 echo "bootmail: [$(hostname)] booted on $(date)" > "$temp"
 echo >> "$temp"
 
+# Update the motd, if we're appending it
+if grep -qs /etc/motd /etc/bootmail/logs; then
+	run-parts --lsbsysinit /etc/update-motd.d > /var/run/motd.new
+	mv -f /var/run/motd.new /var/run/motd
+fi
+
 # Concatenate all specified boot logs
 if [ -f "/etc/bootmail/logs" ]; then
 	for i in $(cat /etc/bootmail/logs); do
@@ -52,4 +58,4 @@ fi
 
 subject="bootmail: [$(hostname)] booted"
 
-cat "$temp" | sed -e "s/[^[:print:]]//g" | mail -s "$subject" "$recipients"
+sed -e "s/[^[:print:]]//g" "$temp" | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$(hostname)"
