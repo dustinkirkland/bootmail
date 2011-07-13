@@ -31,7 +31,7 @@ fi
 
 # Setup and send signed email messages, if we have the necessary tools
 sign=0
-if command -v apg -v gpg -v rngd >/dev/null; then
+if command -v apg -v gpg >/dev/null; then
 	# Create gpg keys for mail signing, if not already setup
 	[ -d /var/lib/bootmail ] || mkdir -p /var/lib/bootmail
 	# Setup the directory
@@ -45,12 +45,8 @@ if command -v apg -v gpg -v rngd >/dev/null; then
 	fi
 	# Generate keys
 	if [ ! -e /var/lib/bootmail/key.pub ] || [ ! -e /var/lib/bootmail/key.sec ]; then
-		# Ensure that we have enough randomness
-		rm -f /var/lib/bootmail/rngd.pid
-		pgrep rngd >/dev/null 2>&1 || rngd -r /dev/urandom --pidfile /var/lib/bootmail/rngd.pid
-		# Generate the keys from configuration
+		# Generate the keys from configuration; note that this will block until there's enough entropy
 		gpg --batch --passphrase-file /var/lib/bootmail/key.passphrase --gen-key /var/lib/bootmail/key.config
-		[ ! -e /var/lib/bootmail/rngd.pid ] || kill $(cat /var/lib/bootmail/rngd.pid)
 	fi
 	sign=1
 fi

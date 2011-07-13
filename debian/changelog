@@ -11,6 +11,8 @@ bootmail (1.1) unreleased; urgency=low
     - install var
   * debian/control:
    - fix gpg package name
+  * usr/sbin/bootmail:
+    - drop the rngd hack; Kees Cook strongly recommended against it
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 19:08:47 -0500
 
