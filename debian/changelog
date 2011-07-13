@@ -18,5 +18,7 @@ bootmail (1.0) unreleased; urgency=low
     - strip control characters
   * usr/sbin/bootmail:
     - update the motd, simplify the pipes
+  * etc/cron.d/bootmail:
+    - must add user
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 16:16:56 -0500
