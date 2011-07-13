@@ -9,6 +9,8 @@ bootmail (1.1) unreleased; urgency=low
     - need /usr/bin/mail
   * debian/install, debian/postinst:
     - install var
+  * debian/control:
+   - fix gpg package name
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 19:08:47 -0500
 
