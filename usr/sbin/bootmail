@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 #
 #    bootmail - email some people when this system (re)boots
 #
@@ -29,6 +29,32 @@ if [ -z "$recipients" ]; then
 	exit 0
 fi
 
+# Setup and send signed email messages, if we have the necessary tools
+sign=0
+if command -v apg -v gpg -v rngd >/dev/null; then
+	# Create gpg keys for mail signing, if not already setup
+	[ -d /var/lib/bootmail ] || mkdir -p /var/lib/bootmail
+	# Setup the directory
+	chown root:root /var/lib/bootmail
+	chmod 700 /var/lib/bootmail
+	# Generate a passphrase
+	if [ ! -e /var/lib/bootmail/key.passphrase ]; then
+		p=$(mktemp)
+		apg -a 1 -n 1 -m 40 -M nCL > "$p"
+		mv "$p" /var/lib/bootmail/key.passphrase
+	fi
+	# Generate keys
+	if [ ! -e /var/lib/bootmail/key.pub ] || [ ! -e /var/lib/bootmail/key.sec ]; then
+		# Ensure that we have enough randomness
+		rm -f /var/lib/bootmail/rngd.pid
+		pgrep rngd >/dev/null 2>&1 || rngd -r /dev/urandom --pidfile /var/lib/bootmail/rngd.pid
+		# Generate the keys from configuration
+		gpg --batch --passphrase-file /var/lib/bootmail/key.passphrase --gen-key /var/lib/bootmail/key.config
+		[ ! -e /var/lib/bootmail/rngd.pid ] || kill $(cat /var/lib/bootmail/rngd.pid)
+	fi
+	sign=1
+fi
+
 # Work against a tempfile
 temp=$(mktemp)
 trap "rm -f $temp 2>/dev/null || true" EXIT HUP INT QUIT TERM
@@ -56,6 +82,12 @@ if [ -f "/etc/bootmail/logs" ]; then
 	done
 fi
 
+# Configure the subject
 subject="bootmail: [$(hostname)] booted"
 
-sed -e "s/[^[:print:]]//g" "$temp" | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$(hostname)"
+# Send, and optionally sign the mail
+if [ "$sign" = "1" ]; then
+	sed -e "s/[^[:print:]]//g" "$temp" | gpg --no-default-keyring --secret-keyring /var/lib/bootmail/key.sec --keyring /var/lib/bootmail/key.pub --passphrase-file /var/lib/bootmail/key.passphrase -a -s --clearsign -u Bootmail | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$(hostname)"
+else
+	sed -e "s/[^[:print:]]//g" "$temp" | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$(hostname)"
+fi

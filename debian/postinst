@@ -3,12 +3,17 @@
 . /usr/share/debconf/confmodule
 db_version 2.0
 
+# Configure addresses obtained from debconf
 db_get bootmail/recipients || true
 if [ -n "$RET" ]; then
 	echo "$RET" > /etc/bootmail/recipients
 else
 	rm -f /etc/bootmail/recipients
 fi
+
+# Ensure correct permissions
+chmod 700 /var/lib/bootmail
+chown root:root /var/lib/bootmail
 
 #DEBHELPER#
 

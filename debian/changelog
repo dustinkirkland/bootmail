@@ -1,6 +1,10 @@
 bootmail (1.1) unreleased; urgency=low
 
-  * UNRELEASED
+  * === added directory var, === added directory var/lib, === added
+    directory var/lib/bootmail, debian/control, debian/postinst,
+    usr/sbin/bootmail, usr/share/man/man8/bootmail.8,
+    var/lib/bootmail/key.config:
+    - add an optional gpg/crypto signature
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 19:08:47 -0500
 
