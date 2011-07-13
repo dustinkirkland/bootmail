@@ -1,4 +1,4 @@
-bootmail (1.0) unreleased; urgency=low
+bootmail (1.0-0ubuntu1) oneiric; urgency=low
 
   * === added directory usr/share, === added directory usr/share/man,
     === added directory usr/share/man/man1,
@@ -21,4 +21,4 @@ bootmail (1.0) unreleased; urgency=low
   * etc/cron.d/bootmail:
     - must add user
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 16:16:56 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 19:08:45 -0500
