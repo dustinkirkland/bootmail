@@ -12,6 +12,7 @@ else
 fi
 
 # Ensure correct permissions
+mkdir -p /var/lib/bootmail
 chmod 700 /var/lib/bootmail
 chown root:root /var/lib/bootmail
 

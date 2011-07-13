@@ -7,6 +7,8 @@ bootmail (1.1) unreleased; urgency=low
     - add an optional gpg/crypto signature
   * debian/control:
     - need /usr/bin/mail
+  * debian/install, debian/postinst:
+    - install var
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 19:08:47 -0500
 
