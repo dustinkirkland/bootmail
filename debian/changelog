@@ -13,6 +13,8 @@ bootmail (1.1) unreleased; urgency=low
    - fix gpg package name
   * usr/sbin/bootmail:
     - drop the rngd hack; Kees Cook strongly recommended against it
+  * debian/postinst, usr/sbin/bootmail:
+    - move key creation over to postinst
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 19:08:47 -0500
 

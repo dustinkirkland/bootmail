@@ -29,41 +29,18 @@ if [ -z "$recipients" ]; then
 	exit 0
 fi
 
-# Setup and send signed email messages, if we have the necessary tools
-sign=0
-if command -v apg -v gpg >/dev/null; then
-	# Create gpg keys for mail signing, if not already setup
-	[ -d /var/lib/bootmail ] || mkdir -p /var/lib/bootmail
-	# Setup the directory
-	chown root:root /var/lib/bootmail
-	chmod 700 /var/lib/bootmail
-	# Generate a passphrase
-	if [ ! -e /var/lib/bootmail/key.passphrase ]; then
-		p=$(mktemp)
-		apg -a 1 -n 1 -m 40 -M nCL > "$p"
-		mv "$p" /var/lib/bootmail/key.passphrase
-	fi
-	# Generate keys
-	if [ ! -e /var/lib/bootmail/key.pub ] || [ ! -e /var/lib/bootmail/key.sec ]; then
-		# Generate the keys from configuration; note that this will block until there's enough entropy
-		gpg --batch --passphrase-file /var/lib/bootmail/key.passphrase --gen-key /var/lib/bootmail/key.config
-	fi
-	sign=1
-fi
-
 # Work against a tempfile
-temp=$(mktemp)
+temp=$(mktemp bootmail-XXXXXXXXXXXX)
 trap "rm -f $temp 2>/dev/null || true" EXIT HUP INT QUIT TERM
 
 # Print the header
-echo "bootmail: [$(hostname)] booted on $(date)" > "$temp"
+hostname=$(hostname)
+date=$(date)
+echo "bootmail: [$hostname] booted on $date" > "$temp"
 echo >> "$temp"
 
-# Update the motd, if we're appending it
-if grep -qs /etc/motd /etc/bootmail/logs; then
-	run-parts --lsbsysinit /etc/update-motd.d > /var/run/motd.new
-	mv -f /var/run/motd.new /var/run/motd
-fi
+# Update the motd now, so that it's ready when we append it
+run-parts --lsbsysinit /etc/update-motd.d > /etc/motd
 
 # Concatenate all specified boot logs
 if [ -f "/etc/bootmail/logs" ]; then
@@ -79,11 +56,7 @@ if [ -f "/etc/bootmail/logs" ]; then
 fi
 
 # Configure the subject
-subject="bootmail: [$(hostname)] booted"
+subject="bootmail: [$hostname] booted"
 
-# Send, and optionally sign the mail
-if [ "$sign" = "1" ]; then
-	sed -e "s/[^[:print:]]//g" "$temp" | gpg --no-default-keyring --secret-keyring /var/lib/bootmail/key.sec --keyring /var/lib/bootmail/key.pub --passphrase-file /var/lib/bootmail/key.passphrase -a -s --clearsign -u Bootmail | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$(hostname)"
-else
-	sed -e "s/[^[:print:]]//g" "$temp" | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$(hostname)"
-fi
+# Sign and send the mail
+cat "$temp" | gpg --no-default-keyring --secret-keyring /var/lib/bootmail/key.sec --keyring /var/lib/bootmail/key.pub --passphrase-file /var/lib/bootmail/key.passphrase -a -s --clearsign -u Bootmail | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"
