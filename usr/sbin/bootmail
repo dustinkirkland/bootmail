@@ -59,4 +59,4 @@ fi
 subject="bootmail: [$hostname] booted"
 
 # Sign and send the mail
-cat "$temp" | gpg -a -s --clearsign --local-user "$hostname" | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"
+sed -e "s/[^[:print:]]//g" "$temp" | gpg -a -s --clearsign --local-user "$hostname" | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"
