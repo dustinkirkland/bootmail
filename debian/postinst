@@ -11,18 +11,10 @@ else
 	rm -f /etc/bootmail/recipients
 fi
 
-# Create gpg keys for mail signing, if not already setup
-if [ ! -e /var/lib/bootmail/key.pub ] || [ ! -e /var/lib/bootmail/key.sec ]; then
-	# Setup the directory
-	mkdir -p -m 700 /var/lib/bootmail
-	chown root:root /var/lib/bootmail
-	chmod 700 /var/lib/bootmail
-	# Generate a passphrase
-	if [ ! -e /var/lib/bootmail/key.passphrase ]; then
-		head -c 128 /dev/urandom | sha512sum | sed "s/ .*//" > /var/lib/bootmail/key.passphrase
-        fi
-	# Generate the keys from configuration; note that this will block until there's enough entropy!
-	gpg --batch --passphrase-file /var/lib/bootmail/key.passphrase --gen-key /var/lib/bootmail/key.config
+# Import ssh host key for gpg mail signing
+h=$(hostname -f)
+if ! gpg --list-keys "$h" >/dev/null 2>&1; then
+	cat /etc/ssh/ssh_host_rsa_key | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp $h | gpg --import
 fi
 
 #DEBHELPER#
