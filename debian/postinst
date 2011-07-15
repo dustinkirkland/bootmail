@@ -12,9 +12,16 @@ else
 fi
 
 # Import ssh host key for gpg mail signing
-h=$(hostname -f)
-if ! gpg --list-keys "$h" >/dev/null 2>&1; then
-	cat /etc/ssh/ssh_host_rsa_key | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp $h | gpg --import
+keyid="bootmail_$(hostname -f)"
+if ! gpg --list-keys "$keyid" >/dev/null 2>&1; then
+	# Use openssl rather than gpg to generate a key, as openssl doesn't block on lack of entropy.
+	# Perhaps slightly less secure than gpg, but all we're doing is signing some simple emails.
+	openssl genrsa 4096 | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp "$keyid" | gpg --import
+	# Save a copy of the public key, for recipients to import
+	mkdir -m 755 -p /var/lib/bootmail
+	chmod 755 /var/lib/bootmail
+	gpg --export -a "$keyid" > /var/lib/bootmail/$keyid.pub
+	chmod 644 /var/lib/bootmail/*.pub
 fi
 
 #DEBHELPER#

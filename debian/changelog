@@ -19,6 +19,9 @@ bootmail (1.1) unreleased; urgency=low
     - greatly simplify the key importing
   * usr/sbin/bootmail:
     - remove unprintable chars
+  * debian/control, debian/postinst, usr/sbin/bootmail,
+    usr/share/man/man8/bootmail.8:
+    - use openssl to generate keys, as it does not block
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 19:08:47 -0500
 
