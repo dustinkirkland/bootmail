@@ -1,6 +1,7 @@
 bootmail (1.2) unreleased; urgency=low
 
-  * UNRELEASED
+  * usr/sbin/bootmail:
+    - add a note about gpg key importing
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 14 Jul 2011 23:36:23 -0500
 

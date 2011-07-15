@@ -41,7 +41,7 @@ echo "$subject" > "$temp"
 echo >> "$temp"
 
 # Update the motd now, so that it's ready when we append it
-run-parts --lsbsysinit /etc/update-motd.d > /etc/motd
+[ -d /etc/update-motd.d ] && run-parts --lsbsysinit /etc/update-motd.d > /etc/motd
 
 # Concatenate all specified boot logs
 if [ -f "/etc/bootmail/logs" ]; then
@@ -67,9 +67,12 @@ if command -v gpg -v openssl -v pem2openpgp >/dev/null 2>&1; then
 		openssl genrsa 4096 | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp "$keyid" | gpg --import
 		# Save a copy of the public key, for recipients to import
 		gpg --export -a "$keyid" > /var/lib/bootmail/$keyid.pub
-		chmod 644 /var/lib/bootmail/*.pub
+		chmod 644 /var/lib/bootmail/$keyid.pub
 	fi
+	echo "To verify this signature, import the public key of this system from:" >> "$temp"
+	echo " * /var/lib/bootmail/$keyid.pub" >> "$temp"
+	# Sign and send the mail
+	sed -e "s/[^[:print:]]//g" "$temp" | gpg -a -s --clearsign --local-user "$keyid" | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"
+else
+	sed -e "s/[^[:print:]]//g" "$temp" | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"
 fi
-
-# Sign and send the mail
-sed -e "s/[^[:print:]]//g" "$temp" | gpg -a -s --clearsign --local-user "$keyid" | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"
