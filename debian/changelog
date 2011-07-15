@@ -1,3 +1,9 @@
+bootmail (1.2) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 14 Jul 2011 23:36:23 -0500
+
 bootmail (1.1-0ubuntu1) oneiric; urgency=low
 
   * === added directory var, === added directory var/lib, === added
