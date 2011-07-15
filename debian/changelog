@@ -23,8 +23,10 @@ bootmail (1.1) unreleased; urgency=low
     usr/share/man/man8/bootmail.8:
     - use openssl to generate keys, as it does not block
   * debian/control, debian/postinst, usr/sbin/bootmail:
-   - move the key generation logic into the utility, so that the crypto
-     bits can be optional packages
+    - move the key generation logic into the utility, so that the crypto
+      bits can be optional packages
+  * usr/sbin/bootmail:
+    - fix typo
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 19:08:47 -0500
 
