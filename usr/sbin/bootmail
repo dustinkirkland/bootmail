@@ -48,8 +48,8 @@ if [ -f "/etc/bootmail/logs" ]; then
 	for i in $(cat /etc/bootmail/logs); do
 		echo >> "$temp"
 		echo "==================" >> "$temp"
-		echo "$i:" >> "$temp"
-		echo "------------------" >> "$temp"
+		echo "[$i]:" >> "$temp"
+		echo "==================" >> "$temp"
 		cat "$i" >> "$temp"
 		echo "==================" >> "$temp"
 		echo >> "$temp"

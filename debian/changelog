@@ -27,6 +27,8 @@ bootmail (1.1) unreleased; urgency=low
       bits can be optional packages
   * usr/sbin/bootmail:
     - fix typo
+  * usr/sbin/bootmail:
+    - minor format change
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 19:08:47 -0500
 
