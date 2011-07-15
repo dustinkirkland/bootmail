@@ -1,4 +1,4 @@
-bootmail (1.1) unreleased; urgency=low
+bootmail (1.1-0ubuntu1) oneiric; urgency=low
 
   * === added directory var, === added directory var/lib, === added
     directory var/lib/bootmail, debian/control, debian/postinst,
@@ -30,7 +30,7 @@ bootmail (1.1) unreleased; urgency=low
   * usr/sbin/bootmail:
     - minor format change
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jul 2011 19:08:47 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 14 Jul 2011 23:36:19 -0500
 
 bootmail (1.0-0ubuntu1) oneiric; urgency=low
 
