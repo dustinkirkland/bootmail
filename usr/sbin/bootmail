@@ -36,7 +36,8 @@ trap "rm -f $temp 2>/dev/null || true" EXIT HUP INT QUIT TERM
 # Print the header
 hostname=$(hostname -f)
 date=$(date)
-echo "bootmail: [$hostname] booted on $date" > "$temp"
+subject="bootmail: [$hostname] booted on [$date]"
+echo "$subject" > "$temp"
 echo >> "$temp"
 
 # Update the motd now, so that it's ready when we append it
@@ -55,9 +56,20 @@ if [ -f "/etc/bootmail/logs" ]; then
 	done
 fi
 
-# Configure the subject
-subject="bootmail: [$hostname] booted"
+# Create a GPG key for message signing, if necessary (and possible)
+keyid="bootmail_$(hostname -f)"
+if command -v gpg -v openssl -v pem2openpgp >dev/null 2>&1; then
+	if ! gpg --list-keys "$keyid" >/dev/null 2>&1; then
+		mkdir -m 755 -p /var/lib/bootmail
+		chmod 755 /var/lib/bootmail
+		# Use openssl rather than gpg to generate a key, as openssl doesn't block on lack of entropy.
+		# Perhaps slightly less secure than gpg, but all we're doing is signing some simple emails.
+		openssl genrsa 4096 | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp "$keyid" | gpg --import
+		# Save a copy of the public key, for recipients to import
+		gpg --export -a "$keyid" > /var/lib/bootmail/$keyid.pub
+		chmod 644 /var/lib/bootmail/*.pub
+	fi
+fi
 
 # Sign and send the mail
-keyid="bootmail_$(hostname -f)"
 sed -e "s/[^[:print:]]//g" "$temp" | gpg -a -s --clearsign --local-user "$keyid" | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"

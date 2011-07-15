@@ -11,6 +11,7 @@ Architecture: all
 Depends: ${misc:Depends},
  debconf (>= 0.5) | debconf-2.0,
  postfix | mail-transport-agent, mailx | bsd-mailx,
+Recommends:
  gnupg, monkeysphere, openssl
 Description: automatically email a list of admins when a system reboots
  bootmail is a handy utility that will automatically send an email
