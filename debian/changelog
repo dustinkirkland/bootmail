@@ -4,6 +4,8 @@ bootmail (1.2) unreleased; urgency=low
     - add a note about gpg key importing
   * usr/sbin/bootmail:
     - use the ssh host key for signing, if possible
+  * debian/control:
+    - simplify depends
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 14 Jul 2011 23:36:23 -0500
 
