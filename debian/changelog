@@ -1,4 +1,4 @@
-bootmail (1.2) unreleased; urgency=low
+bootmail (1.2-0ubuntu1) oneiric; urgency=low
 
   * usr/sbin/bootmail:
     - add a note about gpg key importing
@@ -9,7 +9,7 @@ bootmail (1.2) unreleased; urgency=low
   * debian/postinst:
     - don't remove configuration on upgrades
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 14 Jul 2011 23:36:23 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 17 Jul 2011 15:15:16 -0500
 
 bootmail (1.1-0ubuntu1) oneiric; urgency=low
 
