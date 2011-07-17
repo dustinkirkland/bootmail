@@ -9,8 +9,7 @@ Homepage: http://launchpad.net/bootmail
 Package: bootmail
 Architecture: all
 Depends: ${misc:Depends},
- debconf (>= 0.5) | debconf-2.0,
- mailx | bsd-mailx,
+ debconf (>= 0.5) | debconf-2.0, bsd-mailx
 Recommends:
  gnupg, monkeysphere, openssl
 Description: automatically email a list of admins when a system reboots
