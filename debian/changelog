@@ -6,6 +6,8 @@ bootmail (1.2) unreleased; urgency=low
     - use the ssh host key for signing, if possible
   * debian/control:
     - simplify depends
+  * debian/postinst:
+    - don't remove configuration on upgrades
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 14 Jul 2011 23:36:23 -0500
 
