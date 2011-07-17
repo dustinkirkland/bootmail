@@ -64,7 +64,13 @@ if command -v gpg -v openssl -v pem2openpgp >/dev/null 2>&1; then
 		chmod 755 /var/lib/bootmail
 		# Use openssl rather than gpg to generate a key, as openssl doesn't block on lack of entropy.
 		# Perhaps slightly less secure than gpg, but all we're doing is signing some simple emails.
-		openssl genrsa 4096 | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp "$keyid" | gpg --import
+		if [ -r /etc/ssh/ssh_host_rsa_key ]; then
+			# Use the ssh host key, if possible
+			cat /etc/ssh/ssh_host_rsa_key | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp "$keyid" | gpg --import
+		else
+			# Otherwise, generate a new one from scratch
+			openssl genrsa 4096 | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp "$keyid" | gpg --import
+		fi
 		# Save a copy of the public key, for recipients to import
 		gpg --export -a "$keyid" > /var/lib/bootmail/$keyid.pub
 		chmod 644 /var/lib/bootmail/$keyid.pub
