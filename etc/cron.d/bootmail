@@ -1,3 +1,3 @@
 # The sleep should not be necessary, but it seems to help ensure
 # that the boot logs are more complete
-@reboot root [ -x /usr/sbin/bootmail ] && sleep 10 && /usr/sbin/bootmail
+@reboot root command -v bootmail >dev/null && sleep 10 && bootmail
