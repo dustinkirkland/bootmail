@@ -19,6 +19,26 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+print_mail_text() {
+	# Print the header
+	echo "$subject"
+	echo
+	# Update the motd now, so that it's ready when we append it
+	[ -d /etc/update-motd.d ] && run-parts --lsbsysinit /etc/update-motd.d > /etc/motd
+	# Concatenate all specified boot logs
+	if [ -f "/etc/bootmail/logs" ]; then
+		for i in $(cat /etc/bootmail/logs); do
+			echo
+			echo "=================="
+			echo "[$i]:"
+			echo "=================="
+			cat "$i"
+			echo "=================="
+			echo
+		done
+	fi
+}
+
 
 # This should be comma-separated, and can be configured via debconf:
 #  sudo dpkg-reconfigure bootmail
@@ -28,34 +48,8 @@ if [ -z "$recipients" ]; then
 	echo "No recipients defined in [/etc/bootmail/recipients]" 1>&2
 	exit 0
 fi
-
-# Work against a tempfile
-temp=$(mktemp bootmail-XXXXXXXXXXXX)
-trap "rm -f $temp 2>/dev/null || true" EXIT HUP INT QUIT TERM
-
-# Print the header
 hostname=$(hostname -f)
 date=$(date)
 subject="bootmail: [$hostname] booted on [$date]"
-echo "$subject" > "$temp"
-echo >> "$temp"
-
-# Update the motd now, so that it's ready when we append it
-[ -d /etc/update-motd.d ] && run-parts --lsbsysinit /etc/update-motd.d > /etc/motd
-
-# Concatenate all specified boot logs
-if [ -f "/etc/bootmail/logs" ]; then
-	for i in $(cat /etc/bootmail/logs); do
-		echo >> "$temp"
-		echo "==================" >> "$temp"
-		echo "[$i]:" >> "$temp"
-		echo "==================" >> "$temp"
-		cat "$i" >> "$temp"
-		echo "==================" >> "$temp"
-		echo >> "$temp"
-	done
-fi
-
-# Create a GPG key for message signing, if necessary (and possible)
-keyid="root@$(hostname -f)"
-sed -e "s/[^[:print:]]//g" "$temp" | rootsign | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"
+# Must use the sed to ensure the mail renders properly in most readers
+print_mail_text | sed -e "s/[^[:print:]]//g" | rootsign | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"
