@@ -1,0 +1,46 @@
+#!/bin/sh -e
+#
+#    rootsign - sign stdin with the local root user's private/public keypair
+#               and display on stdout; suitable for piping to mail
+#
+#    Copyright (C) 2011 Dustin Kirkland <kirkland@ubuntu.com>
+#
+#    Authors:
+#        Dustin Kirkland <kirkland@ubuntu.com>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Ensure root
+if [ "$(id -u)" != "0" ]; then
+	echo "Only root can run this program" 1>&2
+	exit 13
+fi
+
+# Define the KEYID and GPG_OPTS
+KEYID="root@$(hostname -f)"
+GPG_OPTS="--local-user "$KEYID" --no-default-keyring --keyring rootsign"
+
+# Create a GPG key for message signing, if necessary
+if ! gpg $GPG_OPTS --list-keys "$KEYID" >/dev/null 2>&1; then
+	# Otherwise, generate a new one from scratch
+	# Use openssl rather than gpg to generate a key, as openssl doesn't block on lack of entropy.
+	# Perhaps slightly less secure than gpg, but all we're doing is signing some simple emails.
+	openssl genrsa 4096 2>/dev/null | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp "$KEYID" | gpg $GPG_OPTS --import >/dev/null 2>&1
+	# Save a copy of the public key, for recipients to gpg --import
+	mkdir -m 755 -p /var/lib/rootsign
+	gpg $GPG_OPTS --export -a "$KEYID" >/var/lib/rootsign/rsa.pub 2>/dev/null
+	chmod 644 /var/lib/rootsign/rsa.pub
+fi
+
+# Sign stdin
+cat /dev/stdin | gpg $GPG_OPTS -a -s --clearsign

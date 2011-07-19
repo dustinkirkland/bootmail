@@ -1,0 +1,26 @@
+.TH rootsign 8 "19 July 2011" bootmail "bootmail"
+.SH NAME
+rootsign - cryptographically sign standard input with a private/public keypair unique to the local root user
+
+.SH DESCRIPTION
+\fBrootsign\fP is a program that operates on standard input, cryptographically signing it with a private/public keypair only accessible by the local root user, and outputting the result on standard out, suitable for piping to \fBmail\fP(1).
+
+A new key will be generated on first use, and is written to \fI/var/lib/rootsign/rsa.pub\fP for import by other users into their keyring, in order to verify signatures.
+
+This tool is used by \fBbootmail\fP(8) to sign messages, but could easily be used by others.
+
+.SH FILES
+\fI/var/lib/rootsign/rsa.pub\fP
+
+.SH SEE ALSO
+.TP
+\fBgpg\fP(1), \fBbootmail\fP(8), \fBmail\fP(1)
+.PD
+.TP
+\fIhttp://launchpad.net/bootmail\fP
+.PD
+
+.SH AUTHOR
+This manpage and the utility were written by Dustin Kirkland <kirkland@ubuntu.com> for Ubuntu systems (but may be used by others).  Permission is granted to copy, distribute and/or modify this document and the utility under the terms of the GNU General Public License, Version 3 published by the Free Software Foundation.
+
+The complete text of the GNU General Public License can be found in \fI/usr/share/common-licenses/GPL\fP on Debian/Ubuntu systems, or on the web at \fIhttp://www.gnu.org/licenses/gpl.txt\fP.

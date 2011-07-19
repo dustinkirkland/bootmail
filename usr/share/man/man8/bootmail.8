@@ -9,14 +9,14 @@ It will read a list of one or more comma-separated email addresses from \fI/etc/
 
 By default, the email will at least consist of the hostname of the system, the time and date of the boot, as well as the contents of \fI/var/log/boot.log\fP and \fI/etc/motd\fP.
 
-\fBbootmail\fP will also cryptographically sign the email message using \fBgpg\fP(1).  To verify the signature, you will need to import the public key stored in \fI/var/lib/bootmail/*.pub\fP.
+\fBbootmail\fP will also cryptographically sign the email message using \fBrootsign\fP(1) and \fBgpg\fP(1).  To verify the signature, you will need to \fBgpg --import\fP the public key stored in \fI/etc/rootsign.pub\fP.
 
 .SH FILES
 \fI/etc/bootmail/logs\fP, \fI/etc/bootmail/recipients\fP
 
 .SH SEE ALSO
 .TP
-\fBcron\fP(8), \fBgpg\fP(1), \fBmail\fP(1)
+\fBcron\fP(8), \fBgpg\fP(1), \fBmail\fP(1), \fBrootsign\fP(8)
 .PD
 .TP
 \fIhttp://launchpad.net/bootmail\fP
