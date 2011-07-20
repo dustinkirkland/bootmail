@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+rm -f /etc/cron.d/bootmail
+
+#DEBHELPER#
+
+# vi: syntax=sh ts=4 noexpandtab
