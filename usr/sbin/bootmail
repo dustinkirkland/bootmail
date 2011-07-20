@@ -52,4 +52,5 @@ hostname=$(hostname -f)
 date=$(date)
 subject="bootmail: [$hostname] booted on [$date]"
 # Must use the sed to ensure the mail renders properly in most readers
+logger -t "bootmail" "Sending bootmail to [$recipients]"
 print_mail_text | sed -e "s/[^[:print:]]//g" | rootsign | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"
