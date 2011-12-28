@@ -1,3 +1,9 @@
+bootmail (1.5) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 28 Dec 2011 10:28:34 -0600
+
 bootmail (1.4-0ubuntu1) precise; urgency=low
 
   * usr/sbin/bootmail, usr/sbin/rootsign, usr/share/man/man8/rootsign.8:
