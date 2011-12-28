@@ -29,6 +29,7 @@ fi
 # Define the KEYID and GPG_OPTS
 KEYID="root@$(hostname -f)"
 GPG_OPTS="--local-user "$KEYID" --no-default-keyring --keyring rootsign"
+[ -n "$KEYSERVER" ] || KEYSERVER="keyserver.ubuntu.com"
 
 # Create a GPG key for message signing, if necessary
 if ! gpg $GPG_OPTS --list-keys "$KEYID" >/dev/null 2>&1; then
@@ -38,8 +39,10 @@ if ! gpg $GPG_OPTS --list-keys "$KEYID" >/dev/null 2>&1; then
 	openssl genrsa 4096 2>/dev/null | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp "$KEYID" | gpg $GPG_OPTS --import >/dev/null 2>&1
 	# Save a copy of the public key, for recipients to gpg --import
 	mkdir -m 755 -p /var/lib/rootsign
-	gpg $GPG_OPTS --export -a "$KEYID" >/var/lib/rootsign/rsa.pub 2>/dev/null
-	chmod 644 /var/lib/rootsign/rsa.pub
+	gpg $GPG_OPTS --export -a "$KEYID" >/var/lib/rootsign/$KEYID.rsa.pub 2>/dev/null
+	# Background a push of the key to a keyserver
+	gpg $GPG_OPTS --keyserver "$KEYSERVER" --send-keys "$KEYID" &
+	chmod 644 /var/lib/rootsign/$KEYID.rsa.pub
 fi
 
 # Sign stdin

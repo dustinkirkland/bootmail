@@ -1,6 +1,8 @@
 bootmail (1.4) unreleased; urgency=low
 
-  * UNRELEASED
+  * usr/sbin/bootmail, usr/sbin/rootsign, usr/share/man/man8/rootsign.8:
+    - push keys to keyserver
+    - add instructions for importing keys in email
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 19 Jul 2011 19:32:40 -0500
 

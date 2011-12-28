@@ -37,8 +37,15 @@ print_mail_text() {
 			echo
 		done
 	fi
+	echo "To verify this message, import this system's GPG key with:"
+	user="root@$(hostname -f)"
+	GPG_OPTS="--local-user $user --no-default-keyring --keyring rootsign"
+	KEYID=$(gpg $GPG_OPTS --list-keys $user | grep -m1 "^pub" | sed -e "s:.*/::" -e "s: .*::")
+	echo "  gpg --keyserver keyserver.ubuntu.com --recv-keys $KEYID"
+	echo
+	gpg $GPG_OPTS --fingerprint "$user"
+	echo
 }
-
 
 # This should be comma-separated, and can be configured via debconf:
 #  sudo dpkg-reconfigure bootmail

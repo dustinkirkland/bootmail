@@ -5,12 +5,12 @@ rootsign - cryptographically sign standard input with a private/public keypair u
 .SH DESCRIPTION
 \fBrootsign\fP is a program that operates on standard input, cryptographically signing it with a private/public keypair only accessible by the local root user, and outputting the result on standard out, suitable for piping to \fBmail\fP(1).
 
-A new key will be generated on first use, and is written to \fI/var/lib/rootsign/rsa.pub\fP for import by other users into their keyring, in order to verify signatures.
+A new key will be generated on first use, and is written to \fI/var/lib/rootsign/$KEYID.rsa.pub\fP for import by other users into their keyring, in order to verify signatures.
 
 This tool is used by \fBbootmail\fP(8) to sign messages, but could easily be used by others.
 
 .SH FILES
-\fI/var/lib/rootsign/rsa.pub\fP
+\fI/var/lib/rootsign/*.rsa.pub\fP
 
 .SH SEE ALSO
 .TP
