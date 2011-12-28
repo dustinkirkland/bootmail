@@ -19,6 +19,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Get GPG_OPTS
+. /etc/bootmail/gpg.conf
+
 print_mail_text() {
 	# Print the header
 	echo "$subject"
@@ -37,13 +40,11 @@ print_mail_text() {
 			echo
 		done
 	fi
-	echo "To verify this message, import this system's GPG key with:"
-	user="root@$(hostname -f)"
-	GPG_OPTS="--local-user $user --no-default-keyring --keyring rootsign"
-	KEYID=$(gpg $GPG_OPTS --list-keys $user | grep -m1 "^pub" | sed -e "s:.*/::" -e "s: .*::")
+	echo "To verify this message, import [$FROM_MAIL]'s GPG key with:"
+	KEYID=$(gpg $GPG_OPTS --list-keys $FROM_MAIL | grep -m1 "^pub" | sed -e "s:.*/::" -e "s: .*::")
 	echo "  gpg --keyserver keyserver.ubuntu.com --recv-keys $KEYID"
 	echo
-	gpg $GPG_OPTS --fingerprint "$user"
+	gpg $GPG_OPTS --fingerprint "$FROM_MAIL"
 	echo
 }
 
@@ -60,4 +61,4 @@ date=$(date)
 subject="bootmail: [$hostname] booted on [$date]"
 # Must use the sed to ensure the mail renders properly in most readers
 logger -t "bootmail" "Sending bootmail to [$recipients]"
-print_mail_text | sed -e "s/[^[:print:]]//g" | rootsign | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "noreply@$hostname"
+print_mail_text | sed -e "s/[^[:print:]]//g" | rootsign | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "$FROM_MAIL"

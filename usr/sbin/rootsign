@@ -26,23 +26,23 @@ if [ "$(id -u)" != "0" ]; then
 	exit 13
 fi
 
-# Define the KEYID and GPG_OPTS
-KEYID="root@$(hostname -f)"
-GPG_OPTS="--local-user "$KEYID" --no-default-keyring --keyring rootsign"
+# Get GPG_OPTS and FROM_MAIL
+. /etc/bootmail/gpg.conf
+
 [ -n "$KEYSERVER" ] || KEYSERVER="keyserver.ubuntu.com"
 
 # Create a GPG key for message signing, if necessary
-if ! gpg $GPG_OPTS --list-keys "$KEYID" >/dev/null 2>&1; then
+if ! gpg $GPG_OPTS --list-keys "$FROM_MAIL" >/dev/null 2>&1; then
 	# Otherwise, generate a new one from scratch
 	# Use openssl rather than gpg to generate a key, as openssl doesn't block on lack of entropy.
 	# Perhaps slightly less secure than gpg, but all we're doing is signing some simple emails.
-	openssl genrsa 4096 2>/dev/null | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp "$KEYID" | gpg $GPG_OPTS --import >/dev/null 2>&1
+	openssl genrsa 4096 2>/dev/null | PEM2OPENPGP_USAGE_FLAGS=certify,sign pem2openpgp "$FROM_MAIL" | gpg $GPG_OPTS --import >/dev/null 2>&1
 	# Save a copy of the public key, for recipients to gpg --import
 	mkdir -m 755 -p /var/lib/rootsign
-	gpg $GPG_OPTS --export -a "$KEYID" >/var/lib/rootsign/$KEYID.rsa.pub 2>/dev/null
+	gpg $GPG_OPTS --export -a "$FROM_MAIL" >/var/lib/rootsign/rsa.pub 2>/dev/null
 	# Background a push of the key to a keyserver
-	gpg $GPG_OPTS --keyserver "$KEYSERVER" --send-keys "$KEYID" &
-	chmod 644 /var/lib/rootsign/$KEYID.rsa.pub
+	gpg $GPG_OPTS --keyserver "$KEYSERVER" --send-keys "$FROM_MAIL" &
+	chmod 644 /var/lib/rootsign/rsa.pub
 fi
 
 # Sign stdin
