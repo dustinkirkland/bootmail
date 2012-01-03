@@ -29,7 +29,7 @@ fi
 # Get GPG_OPTS and FROM_MAIL
 . /etc/bootmail/gpg.conf
 
-[ -n "$KEYSERVER" ] || KEYSERVER="keyserver.ubuntu.com"
+[ -n "$KEYSERVER" ] || KEYSERVER="pgp.mit.edu"
 
 # Create a GPG key for message signing, if necessary
 if ! gpg $GPG_OPTS --list-keys "$FROM_MAIL" >/dev/null 2>&1; then

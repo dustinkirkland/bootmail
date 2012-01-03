@@ -1,6 +1,7 @@
 bootmail (1.5) unreleased; urgency=low
 
-  * UNRELEASED
+  * usr/sbin/bootmail:
+    - make bootmail play nicer with cr-gpg and gmail
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 28 Dec 2011 10:28:34 -0600
 

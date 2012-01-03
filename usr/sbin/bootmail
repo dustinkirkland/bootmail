@@ -42,9 +42,9 @@ print_mail_text() {
 	fi
 	echo "To verify this message, import [$FROM_MAIL]'s GPG key with:"
 	KEYID=$(gpg $GPG_OPTS --list-keys $FROM_MAIL | grep -m1 "^pub" | sed -e "s:.*/::" -e "s: .*::")
-	echo "  gpg --keyserver keyserver.ubuntu.com --recv-keys $KEYID"
+	echo "gpg --keyserver pgp.mit.edu --recv-keys 0x$KEYID"
 	echo
-	gpg $GPG_OPTS --fingerprint "$FROM_MAIL"
+	gpg $GPG_OPTS --fingerprint "$FROM_MAIL" | sed -e "s/\s\+/ /g"
 	echo
 }
 
