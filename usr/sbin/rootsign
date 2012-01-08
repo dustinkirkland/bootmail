@@ -26,6 +26,17 @@ if [ "$(id -u)" != "0" ]; then
 	exit 13
 fi
 
+PKG=rootsign
+# All sorts of things go wrong if you don't own your $HOME dir.
+# This happens under sudo, if you don't use the -H option.
+if [ ! -O "$HOME" ]; then
+        echo "Cannot run $PKG because [$USER] does not own [$HOME]" 1>&2
+        if [ -n "$SUDO_USER" ]; then
+                echo "To run $PKG under sudo, you MUST use 'sudo -H'" 1>&2
+        fi
+        exit 1
+fi
+
 # Get GPG_OPTS and FROM_MAIL
 . /etc/bootmail/gpg.conf
 

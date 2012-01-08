@@ -1,6 +1,7 @@
 bootmail (1.6) unreleased; urgency=low
 
-  * UNRELEASED
+  * usr/sbin/bootmail, usr/sbin/rootsign:
+    - add some checks, necessary if running bootmail or rootsign under sudo
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 03 Jan 2012 16:20:53 -0600
 

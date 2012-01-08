@@ -21,6 +21,17 @@
 
 # Get GPG_OPTS
 . /etc/bootmail/gpg.conf
+PKG=bootmail
+
+# All sorts of things go wrong if you don't own your $HOME dir.
+# This happens under sudo, if you don't use the -H option.
+if [ ! -O "$HOME" ]; then
+        echo "Cannot run $PKG because [$USER] does not own [$HOME]" 1>&2
+        if [ -n "$SUDO_USER" ]; then
+                echo "To run $PKG under sudo, you MUST use 'sudo -H'" 1>&2
+        fi
+        exit 1
+fi
 
 print_mail_text() {
 	# Print the header
