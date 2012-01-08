@@ -9,8 +9,10 @@ A new key will be generated on first use, and is written to \fI/var/lib/rootsign
 
 This tool is used by \fBbootmail\fP(8) to sign messages, but could easily be used by others.
 
+\fBrootsign\fP can optionally encrypt the message as well, by setting the recipient's \fBgpg\fP(1) key id in the RECIPIENT_KEYID variable in \f/I/etc/bootmail/gpg.conf\fP.
+
 .SH FILES
-\fI/var/lib/rootsign/*.rsa.pub\fP
+\fI/etc/bootmail/gpg.conf\fP, \fI/var/lib/rootsign/*.rsa.pub\fP
 
 .SH SEE ALSO
 .TP

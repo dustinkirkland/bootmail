@@ -2,6 +2,11 @@ bootmail (1.6) unreleased; urgency=low
 
   * usr/sbin/bootmail, usr/sbin/rootsign:
     - add some checks, necessary if running bootmail or rootsign under sudo
+  * etc/bootmail/gpg.conf, usr/sbin/rootsign,
+    usr/share/man/man8/bootmail.8, usr/share/man/man8/rootsign.8:
+    - support an optional RECIPIENT_KEYID variable in /etc/bootmail/gpg.conf,
+      to enable users to encrypt as well as sign messages with the rootsign
+      utility
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 03 Jan 2012 16:20:53 -0600
 

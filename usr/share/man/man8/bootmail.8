@@ -11,8 +11,10 @@ By default, the email will at least consist of the hostname of the system, the t
 
 \fBbootmail\fP will also cryptographically sign the email message using \fBrootsign\fP(1) and \fBgpg\fP(1).  To verify the signature, you will need to \fBgpg --import\fP the public key stored in \fI/etc/rootsign.pub\fP.
 
+\fBbootmail\fP can optionally encrypt the email messages as well, by setting the recipient's \fBgpg\fP(1) key id in the RECIPIENT_KEYID variable in \f/I/etc/bootmail/gpg.conf\fP.
+
 .SH FILES
-\fI/etc/bootmail/logs\fP, \fI/etc/bootmail/recipients\fP
+\f/I/etc/bootmail/gpg.conf\fP, \fI/etc/bootmail/logs\fP, \fI/etc/bootmail/recipients\fP
 
 .SH SEE ALSO
 .TP

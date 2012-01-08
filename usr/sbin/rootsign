@@ -56,5 +56,22 @@ if ! gpg $GPG_OPTS --list-keys "$FROM_MAIL" >/dev/null 2>&1; then
 	chmod 644 /var/lib/rootsign/rsa.pub
 fi
 
+CLEARSIGN="--clearsign"
+if [ -n "$RECIPIENT_KEYID" ]; then
+	if gpg $GPG_OPTS --list-keys "$RECIPIENT_KEYID" >/dev/null 2>&1; then
+		GPG_OPTS="$GPG_OPTS -e -r $RECIPIENT_KEYID"
+		CLEARSIGN=
+	else
+		if gpg $GPG_OPTS --recv-keys $RECIPIENT_KEYID; then
+			GPG_OPTS="$GPG_OPTS -e -r $RECIPIENT_KEYID"
+			CLEARSIGN=
+		else
+			echo "ERROR: You need to manually import [$RECIPIENT_KEYID]" 1>&2
+			echo "  cat public_key | gpg $GPG_OPTS --import" 1>&2
+			exit 1
+		fi
+	fi
+fi
+
 # Sign stdin
-cat /dev/stdin | gpg $GPG_OPTS -a -s --clearsign
+cat /dev/stdin | gpg $GPG_OPTS -a -s $CLEARSIGN
