@@ -1,6 +1,11 @@
 bootmail (1.7) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/rules, debian/upstart, etc/cron.d/bootmail,
+    usr/sbin/bootmail:
+    - use an upstart job to send bootmail, so that we can send on both
+      boot and shutdown
+    - deprecate the cronjob
+    - add a --shutdown option that sends a different subject
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 08 Jan 2012 17:46:26 -0600
 

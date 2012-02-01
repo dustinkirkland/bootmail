@@ -59,6 +59,7 @@ print_mail_text() {
 	echo
 }
 
+
 # This should be comma-separated, and can be configured via debconf:
 #  sudo dpkg-reconfigure bootmail
 recipients=
@@ -69,7 +70,11 @@ if [ -z "$recipients" ]; then
 fi
 hostname=$(hostname -f)
 date=$(date)
-subject="bootmail: [$hostname] booted on [$date]"
+if [ "$1" = "--shutdown" ]; then
+	subject="bootmail: [$hostname] shutting down on [$date]"
+else
+	subject="bootmail: [$hostname] booted on [$date]"
+fi
 # Must use the sed to ensure the mail renders properly in most readers
 logger -t "bootmail" "Sending bootmail to [$recipients]"
 print_mail_text | sed -e "s/[^[:print:]]//g" | rootsign | mail -s "$subject" "$recipients" -- -F "Bootmail" -f "$FROM_MAIL"

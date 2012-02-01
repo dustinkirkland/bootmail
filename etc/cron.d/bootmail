@@ -1,3 +1,0 @@
-# The sleep should not be necessary, but it seems to help ensure
-# that the boot logs are more complete
-@reboot root sleep 10 && PATH="$PATH:/usr/sbin" bootmail
