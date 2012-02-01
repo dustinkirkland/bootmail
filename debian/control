@@ -2,14 +2,14 @@ Source: bootmail
 Section: admin
 Priority: optional
 Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
-Build-Depends: debhelper (>= 7)
-Standards-Version: 3.9.1
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.2
 Homepage: http://launchpad.net/bootmail
 
 Package: bootmail
 Architecture: all
 Depends: ${misc:Depends},
- debconf (>= 0.5) | debconf-2.0, mailx|bsd-mailx,
+ debconf (>= 0.5) | debconf-2.0, bsd-mailx|mailx,
  gnupg, monkeysphere, openssl
 Description: automatically email a list of admins when a system reboots
  bootmail is a handy utility that will automatically send an email
