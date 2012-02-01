@@ -1,4 +1,4 @@
-bootmail (1.7) unreleased; urgency=low
+bootmail (1.7-0ubuntu1) precise; urgency=low
 
   * debian/rules, debian/upstart, etc/cron.d/bootmail,
     usr/sbin/bootmail:
@@ -11,7 +11,7 @@ bootmail (1.7) unreleased; urgency=low
     - bump standards
     - build depend on versioned debhelper for dh overrides
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 08 Jan 2012 17:46:26 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 01 Feb 2012 17:58:22 -0600
 
 bootmail (1.6-0ubuntu1) precise; urgency=low
 
