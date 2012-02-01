@@ -6,6 +6,8 @@ bootmail (1.7) unreleased; urgency=low
       boot and shutdown
     - deprecate the cronjob
     - add a --shutdown option that sends a different subject
+  * debian/control: LP: #812879
+    - depend on mailx|bsd-mailx
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 08 Jan 2012 17:46:26 -0600
 
