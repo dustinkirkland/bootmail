@@ -1,3 +1,9 @@
+bootmail (1.9) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 12 Feb 2012 11:32:11 -0600
+
 bootmail (1.8-0ubuntu1) precise; urgency=low
 
   * debian/config, debian/postinst, debian/templates,
