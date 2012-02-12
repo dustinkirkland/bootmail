@@ -1,11 +1,11 @@
-bootmail (1.8) unreleased; urgency=low
+bootmail (1.8-0ubuntu1) precise; urgency=low
 
   * debian/config, debian/postinst, debian/templates,
     etc/bootmail/gpg.conf, usr/sbin/rootsign,
     usr/share/man/man8/bootmail.8:
     - drastically improve encryption support
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 01 Feb 2012 17:58:24 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 12 Feb 2012 11:32:06 -0600
 
 bootmail (1.7-0ubuntu1) precise; urgency=low
 
