@@ -9,6 +9,12 @@ if [ -n "$RET" ]; then
 	echo "$RET" > /etc/bootmail/recipients
 fi
 
+# Configure public keys obtained from debconf
+db_get bootmail/gpgkeys || true
+if [ -n "$RET" ]; then
+	echo "$RET" > /etc/bootmail/gpgkeys
+fi
+
 #DEBHELPER#
 
 # vi: syntax=sh ts=4 noexpandtab

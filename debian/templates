@@ -3,3 +3,9 @@ Type: string
 _Description: Recipient email addresses:
  Bootmail will automatically email one or more addresses each time this
  system reboots.  Enter a comma-separated list of email addresses.
+
+Template: bootmail/gpgkeys
+Type: string
+_Description: Recipient gpg key ids:
+ Bootmail can optionally encrypt messages to one or more gpg public
+ keys.  Enter a comma separated list of public key ids here.

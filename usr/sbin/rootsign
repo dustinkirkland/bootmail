@@ -57,21 +57,25 @@ if ! gpg $GPG_OPTS --list-keys "$FROM_MAIL" >/dev/null 2>&1; then
 fi
 
 CLEARSIGN="--clearsign"
-if [ -n "$RECIPIENT_KEYID" ]; then
-	if gpg $GPG_OPTS --list-keys "$RECIPIENT_KEYID" >/dev/null 2>&1; then
-		GPG_OPTS="$GPG_OPTS -e -r $RECIPIENT_KEYID"
-		CLEARSIGN=
-	else
-		if gpg $GPG_OPTS --recv-keys $RECIPIENT_KEYID; then
-			GPG_OPTS="$GPG_OPTS -e -r $RECIPIENT_KEYID"
+opts="$GPG_OPTS"
+if [ -s /etc/bootmail/gpgkeys ]; then
+	opts="$opts -e"
+	for i in $(cat /etc/bootmail/gpgkeys | sed "s/,/ /g"); do
+		if gpg $GPG_OPTS --list-keys "$i" >/dev/null 2>&1; then
+			opts="$opts -r $i"
 			CLEARSIGN=
 		else
-			echo "ERROR: You need to manually import [$RECIPIENT_KEYID]" 1>&2
-			echo "  cat public_key | gpg $GPG_OPTS --import" 1>&2
-			exit 1
+			if gpg $GPG_OPTS --recv-keys $i; then
+				opts="$opts -r $i"
+				CLEARSIGN=
+			else
+				echo "ERROR: You need to manually import the key [$i] with:" 1>&2
+				echo "  cat public_key | gpg $GPG_OPTS --import" 1>&2
+				exit 1
+			fi
 		fi
-	fi
+	done
 fi
 
 # Sign stdin
-cat /dev/stdin | gpg $GPG_OPTS -a -s $CLEARSIGN
+cat /dev/stdin | gpg $opts -a -s $CLEARSIGN
