@@ -1,3 +1,9 @@
+bootmail (1.10) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 15 Mar 2012 13:16:15 -0500
+
 bootmail (1.9-0ubuntu1) precise; urgency=low
 
   * debian/postinst, debian/upstart, === removed directory etc/cron.d:
