@@ -15,6 +15,9 @@ if [ -n "$RET" ]; then
 	echo "$RET" > /etc/bootmail/gpgkeys
 fi
 
+# Flag to keep bootmail from running at installation time
+touch /var/run/.bootmail-just-installed
+
 #DEBHELPER#
 
 # vi: syntax=sh ts=4 noexpandtab

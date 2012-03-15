@@ -1,6 +1,8 @@
 bootmail (1.9) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/postinst, debian/upstart, === removed directory etc/cron.d:
+    - LP: #956264, don't send extra bootmail entry from installation
+    - cron dir no longer necessary
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 12 Feb 2012 11:32:11 -0600
 

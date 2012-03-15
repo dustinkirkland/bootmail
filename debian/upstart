@@ -7,8 +7,10 @@ start on stopped rc RUNLEVEL=[2345]
 stop on starting rc RUNLEVEL=[06]
 
 pre-start script
-	# Ensure that we run this with a root environment
-	su  -c "/usr/sbin/bootmail" -l root
+	if [ ! -e /var/run/.bootmail-just-installed ]; then
+		# Ensure that we run this with a root environment
+		su  -c "/usr/sbin/bootmail" -l root
+	fi
 end script
 
 pre-stop script
