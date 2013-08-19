@@ -6,7 +6,7 @@ bootmail (1.10) unreleased; urgency=low
   * debian/po/templates.pot:
     - update po
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 15 Mar 2012 13:16:15 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 18 Aug 2013 22:02:06 -0500
 
 bootmail (1.9-0ubuntu1) precise; urgency=low
 
