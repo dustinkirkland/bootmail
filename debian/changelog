@@ -1,6 +1,7 @@
 bootmail (1.11) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/control:
+    - update description
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 18 Aug 2013 22:03:09 -0500
 
