@@ -1,4 +1,4 @@
-bootmail (1.11) unreleased; urgency=low
+bootmail (1.11-0ubuntu1) vivid; urgency=low
 
   [ Dustin Kirkland ]
   * debian/control:
@@ -11,7 +11,7 @@ bootmail (1.11) unreleased; urgency=low
       extra bootmail entry from installation
     - bump standards
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 18 Aug 2013 22:03:09 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 07 Jan 2015 13:12:42 -0600
 
 bootmail (1.10-0ubuntu1) saucy; urgency=low
 
