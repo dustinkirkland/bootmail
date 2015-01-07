@@ -1,0 +1,12 @@
+[Unit]
+Description=Email a list of admins when a system boot
+# ConditionPath needed due to https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=768450
+ConditionPathExists=!/var/run/.bootmail-just-installed
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/bootmail
+
+[Install]
+WantedBy=multi-user.target

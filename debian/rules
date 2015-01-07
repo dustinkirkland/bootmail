@@ -1,7 +1,18 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@
+	dh $@ --with systemd
 
 override_dh_installinit:
 	dh_installinit --no-restart-on-upgrade
+
+override_dh_systemd_enable:
+	dh_systemd_enable bootmail.service bootmail-shutdown.service
+
+override_dh_systemd_start:
+	# this is not enough, hence the conditional path added to the
+	# bootmail.service unit. As the job only have an upstart job
+	# see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=768456
+	# and https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=768450
+	dh_systemd_start --no-start
+

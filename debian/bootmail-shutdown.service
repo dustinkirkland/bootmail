@@ -1,0 +1,11 @@
+[Unit]
+Description=Email a list of admins when a system shutdown
+DefaultDependencies=no
+Before=shutdown.target reboot.target halt.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/bootmail --shutdown
+
+[Install]
+WantedBy=shutdown.target

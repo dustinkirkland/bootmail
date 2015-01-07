@@ -1,7 +1,15 @@
 bootmail (1.11) unreleased; urgency=low
 
+  [ Dustin Kirkland ]
   * debian/control:
     - update description
+
+  [ Didier Roche ]
+  * debian/bootmail.service, debian/bootmail-shutdown.service,
+    debian/control, debian/install, debian/rules:
+    - Added systemd services on boot and shutdown. Ensure they don't send
+      extra bootmail entry from installation
+    - bump standards
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 18 Aug 2013 22:03:09 -0500
 
