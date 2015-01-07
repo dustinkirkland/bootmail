@@ -1,3 +1,9 @@
+bootmail (1.12) unreleased; urgency=medium
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 07 Jan 2015 13:12:46 -0600
+
 bootmail (1.11-0ubuntu1) vivid; urgency=low
 
   [ Dustin Kirkland ]
